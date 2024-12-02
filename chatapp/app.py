@@ -50,12 +50,20 @@ if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = []
 
 # Display chat history
+# for message in st.session_state["chat_history"]:
+#     message_class = "user-message" if message["role"] == "user" else "bot-message"
+#     st.markdown(
+#         f'<div class="chat-container"><div class="{message_class}">{message["content"]}</div></div>',
+#         unsafe_allow_html=True,
+#     )
+
+# Display chat history
 for message in st.session_state["chat_history"]:
-    message_class = "user-message" if message["role"] == "user" else "bot-message"
-    st.markdown(
-        f'<div class="chat-container"><div class="{message_class}">{message["content"]}</div></div>',
-        unsafe_allow_html=True,
-    )
+    if message["role"] == "user":
+        st.markdown(f'<div class="chat-container"><div class="user-message">{message["content"]}</div></div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div class="chat-container"><div class="bot-message">{message["content"]}</div></div><br>', unsafe_allow_html=True)
+
 
 # User input form
 with st.form("chat_form", clear_on_submit=True):
