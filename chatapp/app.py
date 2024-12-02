@@ -1,15 +1,12 @@
-# app.py
 import streamlit as st
 from inference import ask_question
 
 # App Layout and Sidebar
 st.set_page_config(page_title="VQA Chat", layout="wide")
 
-# Sidebar for settings
 st.sidebar.title("VQA Chat Settings")
 st.sidebar.write("Ask questions about various objects in a conversational format.")
 
-# Chat application
 st.title("VQA Chat Assistant")
 st.markdown("""
     <style>
@@ -42,22 +39,23 @@ st.markdown("""
             background-color: #ffffff; /* White for bot message */
             border: 1px solid #e0e0e0;
             align-self: flex-start;
-            color: #000; /* Darker color for better readability */
+            color: #000;
             box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Session State to store chat history
+# Initialize chat history
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = []
 
 # Display chat history
 for message in st.session_state["chat_history"]:
-    if message["role"] == "user":
-        st.markdown(f'<div class="chat-container"><div class="user-message">{message["content"]}</div></div>', unsafe_allow_html=True)
-    else:
-        st.markdown(f'<div class="chat-container"><div class="bot-message">{message["content"]}</div></div><br>', unsafe_allow_html=True)
+    message_class = "user-message" if message["role"] == "user" else "bot-message"
+    st.markdown(
+        f'<div class="chat-container"><div class="{message_class}">{message["content"]}</div></div>',
+        unsafe_allow_html=True,
+    )
 
 # User input form
 with st.form("chat_form", clear_on_submit=True):
@@ -65,13 +63,12 @@ with st.form("chat_form", clear_on_submit=True):
     object_name = st.text_input("Optional object name/context")
     submitted = st.form_submit_button("Send")
 
-# Generate answer when form is submitted
+# Generate response
 if submitted and question:
     st.session_state["chat_history"].append({"role": "user", "content": question})
-
-    # Call the inference model
-    answer = ask_question(question, object_name)
-    st.session_state["chat_history"].append({"role": "bot", "content": answer})
-
-    # Display updated chat history
+    try:
+        answer = ask_question(question, object_name)
+        st.session_state["chat_history"].append({"role": "bot", "content": answer})
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
     st.rerun()
