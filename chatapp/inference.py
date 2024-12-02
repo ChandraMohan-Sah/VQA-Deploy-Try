@@ -7,7 +7,8 @@ tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
 model = BartForConditionalGeneration.from_pretrained('facebook/bart-base')
 
 # Define checkpoint path
-checkpoint_path = os.path.join(os.getcwd(), "vqa-deploy-trial", "final_checkpoint.pth")
+# checkpoint_path = os.path.join(os.getcwd(), "vqa-deploy-trial", "final_checkpoint.pth")
+checkpoint_path = "chatapp\vqa-deploy-trial\final_checkpoint.pth"
 
 # Function to load checkpoint
 def load_checkpoint(model, file_path):
