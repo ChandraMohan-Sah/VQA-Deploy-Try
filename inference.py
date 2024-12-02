@@ -1,13 +1,13 @@
 import torch
 from transformers import BartTokenizer, BartForConditionalGeneration
 import os
-
+ 
 # Load the tokenizer and model
 tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
 model = BartForConditionalGeneration.from_pretrained('facebook/bart-base')
 
 # Define the checkpoint path
-checkpoint_path = os.path.join(os.getcwd(), "vqa-deploy-trial", "final_checkpoint.pth")
+checkpoint_path = os.path.join(os.getcwd(),"final_checkpoint.pth")
 
 # Function to load checkpoint
 def load_checkpoint(model, file_path):
