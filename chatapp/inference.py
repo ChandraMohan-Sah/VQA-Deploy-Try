@@ -20,12 +20,15 @@ def load_checkpoint(model, file_path):
     print("Checkpoint loaded successfully.")
 
 # Load the checkpoint
-try:
-    load_checkpoint(model, checkpoint_path)
-    model.eval()
-except Exception as e:
-    print(f"Error loading checkpoint: {e}")
-    model = None
+# try:
+#     load_checkpoint(model, checkpoint_path)
+#     model.eval()
+# except Exception as e:
+#     print(f"Error loading checkpoint: {e}")
+#     model = None
+
+load_checkpoint(model, checkpoint_path)
+model.eval()
 
 # Function to generate answers
 def ask_question(question, object_name=None, max_length=50):
